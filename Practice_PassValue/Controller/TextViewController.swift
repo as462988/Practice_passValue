@@ -79,15 +79,20 @@ class TextViewController: UIViewController {
     }
     
     @objc func clickBtn(){
-        
+
         guard let text = textField.text else {
             return
         }
-        
+
         handler?(text)
-        
+
         navigationController?.popViewController(animated: true)
     }
-    
+//    
+//    @objc func clickBtn(){
+//    
+//        navigationController?.popViewController(animated: true)
+//    }
+//    
 }
 

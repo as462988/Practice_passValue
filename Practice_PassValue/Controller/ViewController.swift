@@ -35,7 +35,6 @@ class ViewController: UIViewController {
             
             self?.showArray.append(text)
             self?.tableView.reloadData()
-            
         }
     }
 }
@@ -52,9 +51,14 @@ extension ViewController: UITableViewDataSource{
             return UITableViewCell()
         }
         
-//        cell.delegate = self
+        cell.delegate = self
         cell.label.text = showArray[indexPath.row]
         cell.deleteBtn.tag = indexPath.row
+        
+        cell.deleteHandler = { [weak self] in
+            self?.showArray.remove(at: indexPath.row)
+            self?.tableView.reloadData()
+        }
         
 //        cell.deleteBtn.addTarget(self, action: #selector(deleteBtnClick(_:)), for: .touchUpInside)
 //
@@ -93,15 +97,15 @@ extension ViewController: UITableViewDelegate {
 }
 
 //Mark: - Delegate Pattern
-//extension ViewController: TableViewCellDelegate {
-//
-//    func clickBtn(_ cell: TableViewCell){
-//        guard let index = tableView.indexPath(for: cell) else {return}
-//        showArray.remove(at: index.row)
-//        tableView.deleteRows(at: [index], with: .fade)
-//        tableView.reloadData()
-//    }
-//}
+extension ViewController: TableViewCellDelegate {
+
+    func clickBtn(_ cell: TableViewCell){
+        guard let index = tableView.indexPath(for: cell) else {return}
+        showArray.remove(at: index.row)
+        tableView.deleteRows(at: [index], with: .fade)
+        tableView.reloadData()
+    }
+}
 
 
 
