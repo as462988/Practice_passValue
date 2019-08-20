@@ -9,30 +9,31 @@
 import UIKit
 
 
-protocol TableViewCellDelegate: class {
-    func clickBtn(_ cell: TableViewCell)
-}
+//protocol TableViewCellDelegate: class {
+//    func clickBtn(_ cell: TableViewCell)
+//}
 
 class TableViewCell: UITableViewCell {
 
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var deleteBtn: UIButton!
     
-    weak var delegate: TableViewCellDelegate?
+//    weak var delegate: TableViewCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
+      
     }
     @IBAction func clickDeleteBtn(){
         
-        self.delegate?.clickBtn(self)
+//        self.delegate?.clickBtn(self)
+        
+        
     }
-
 }

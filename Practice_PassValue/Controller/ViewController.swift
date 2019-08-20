@@ -10,33 +10,36 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView!{
+        
+        didSet{
+            tableView.delegate = self
+            tableView.dataSource = self
+            
+        }
+        
+    }
     
     var showArray = ["2", "3", "4", "5"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.delegate = self
-        tableView.dataSource = self
        
     }
-
-}
-
-extension ViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        guard let textVC = storyboard?.instantiateViewController(withIdentifier: "textVC") as? TextViewController else {
-            return
+        guard let  textVC = segue.destination as? TextViewController  else { return }
+        
+        textVC.handler = { [weak self] text in
+            
+            self?.showArray.append(text)
+            self?.tableView.reloadData()
+            
         }
-        
-        textVC.textField.text = showArray[indexPath.row]
-        
-        navigationController?.pushViewController(textVC, animated: true)
-        
     }
 }
+
 
 extension ViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -48,10 +51,11 @@ extension ViewController: UITableViewDataSource{
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? TableViewCell else {
             return UITableViewCell()
         }
-
-        cell.delegate = self
+        
+//        cell.delegate = self
         cell.label.text = showArray[indexPath.row]
         cell.deleteBtn.tag = indexPath.row
+        
 //        cell.deleteBtn.addTarget(self, action: #selector(deleteBtnClick(_:)), for: .touchUpInside)
 //
         return cell
@@ -67,15 +71,38 @@ extension ViewController: UITableViewDataSource{
 //    }
 }
 
-//Mark: - Delegate Pattern
-extension ViewController: TableViewCellDelegate {
-    
-    func clickBtn(_ cell: TableViewCell){
-        guard let index = tableView.indexPath(for: cell) else {return}
-        showArray.remove(at: index.row)
-        tableView.deleteRows(at: [index], with: .fade)
-        tableView.reloadData()
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let textVC = storyboard?.instantiateViewController(withIdentifier: "textVC") as? TextViewController else {
+            return
+        }
+        
+        textVC.text = showArray[indexPath.row]
+        
+        textVC.handler = { [weak self] (text) in
+            
+            self?.showArray[indexPath.row] = text
+            
+            tableView.reloadData()
+            
+        }
+        navigationController?.pushViewController(textVC, animated: true)
+        
     }
 }
+
+//Mark: - Delegate Pattern
+//extension ViewController: TableViewCellDelegate {
+//
+//    func clickBtn(_ cell: TableViewCell){
+//        guard let index = tableView.indexPath(for: cell) else {return}
+//        showArray.remove(at: index.row)
+//        tableView.deleteRows(at: [index], with: .fade)
+//        tableView.reloadData()
+//    }
+//}
+
+
 
 

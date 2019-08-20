@@ -8,11 +8,23 @@
 
 import UIKit
 
+protocol TextViewControllerDelegate: class {
+    
+//    func passText() -> String
+    
+}
+
 class TextViewController: UIViewController {
     
     let textField = UITextField()
     
     let clickCheckBtn = UIButton()
+    
+    var text: String?
+    
+    var handler: ((String) -> Void)?
+    
+    weak var delegate: TextViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,8 +34,10 @@ class TextViewController: UIViewController {
         setTextField()
         setBtnLayout()
         
+        textField.text = text
+        
         clickCheckBtn.addTarget(self, action: #selector(clickBtn), for: .touchUpInside)
-        // Do any additional setup after loading the view.
+
     }
     
     func setTextField(){
@@ -64,11 +78,16 @@ class TextViewController: UIViewController {
         
     }
     
-   @objc func clickBtn(){
-    
-    
-    navigationController?.popViewController(animated: true)
+    @objc func clickBtn(){
+        
+        guard let text = textField.text else {
+            return
+        }
+        
+        handler?(text)
+        
+        navigationController?.popViewController(animated: true)
     }
-
+    
 }
 
