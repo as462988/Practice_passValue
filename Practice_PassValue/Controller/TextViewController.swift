@@ -35,13 +35,10 @@ class TextViewController: UIViewController {
         NSLayoutConstraint.activate([
             
             textField.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 100),
-            
             textField.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 2/3),
             textField.heightAnchor.constraint(equalToConstant: 40),
             textField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
             ])
-        
-        
     }
 
     func setBtnLayout(){

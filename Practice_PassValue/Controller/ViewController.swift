@@ -40,10 +40,21 @@ extension ViewController:UITableViewDataSource{
         }
         
         cell.label.text = showArray[indexPath.row]
+        cell.deleteBtn.tag = indexPath.row
+        cell.deleteBtn.addTarget(self, action: #selector(deleteBtnClick(_:)), for: .touchUpInside)
         
         return cell
     }
     
-    
+    //Mark: - Target-Action
+    @objc func deleteBtnClick(_ sender: UIButton){
+
+//        let index = IndexPath(row: sender.tag, section: 0)
+        showArray.remove(at: sender.tag)
+//        tableView.deleteRows(at: [index], with: .fade)
+        tableView.reloadData()
+    }
+
 }
+
 
