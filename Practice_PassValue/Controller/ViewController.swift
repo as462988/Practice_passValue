@@ -24,11 +24,21 @@ class ViewController: UIViewController {
 
 }
 
-extension ViewController:UITableViewDelegate{
-    
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let textVC = storyboard?.instantiateViewController(withIdentifier: "textVC") as? TextViewController else {
+            return
+        }
+        
+        textVC.textField.text = showArray[indexPath.row]
+        
+        navigationController?.pushViewController(textVC, animated: true)
+        
+    }
 }
 
-extension ViewController:UITableViewDataSource{
+extension ViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return showArray.count
     }
@@ -38,6 +48,7 @@ extension ViewController:UITableViewDataSource{
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? TableViewCell else {
             return UITableViewCell()
         }
+
         cell.delegate = self
         cell.label.text = showArray[indexPath.row]
         cell.deleteBtn.tag = indexPath.row
@@ -56,6 +67,7 @@ extension ViewController:UITableViewDataSource{
 //    }
 }
 
+//Mark: - Delegate Pattern
 extension ViewController: TableViewCellDelegate {
     
     func clickBtn(_ cell: TableViewCell){
