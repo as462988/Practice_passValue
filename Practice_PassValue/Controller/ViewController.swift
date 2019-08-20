@@ -38,23 +38,32 @@ extension ViewController:UITableViewDataSource{
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? TableViewCell else {
             return UITableViewCell()
         }
-        
+        cell.delegate = self
         cell.label.text = showArray[indexPath.row]
         cell.deleteBtn.tag = indexPath.row
-        cell.deleteBtn.addTarget(self, action: #selector(deleteBtnClick(_:)), for: .touchUpInside)
-        
+//        cell.deleteBtn.addTarget(self, action: #selector(deleteBtnClick(_:)), for: .touchUpInside)
+//
         return cell
     }
     
     //Mark: - Target-Action
-    @objc func deleteBtnClick(_ sender: UIButton){
-
+//    @objc func deleteBtnClick(_ sender: UIButton){
+//
 //        let index = IndexPath(row: sender.tag, section: 0)
-        showArray.remove(at: sender.tag)
+//        showArray.remove(at: sender.tag)
 //        tableView.deleteRows(at: [index], with: .fade)
+//        tableView.reloadData()
+//    }
+}
+
+extension ViewController: TableViewCellDelegate {
+    
+    func clickBtn(_ cell: TableViewCell){
+        guard let index = tableView.indexPath(for: cell) else {return}
+        showArray.remove(at: index.row)
+        tableView.deleteRows(at: [index], with: .fade)
         tableView.reloadData()
     }
-
 }
 
 
