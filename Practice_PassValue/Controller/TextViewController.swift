@@ -10,8 +10,9 @@ import UIKit
 
 protocol TextViewControllerDelegate: class {
     
-//    func passText() -> String
+    func passText(text: String)
     
+    func changeText(text: String)
 }
 
 class TextViewController: UIViewController {
@@ -24,8 +25,9 @@ class TextViewController: UIViewController {
     
     var handler: ((String) -> Void)?
     
-    weak var delegate: TextViewControllerDelegate?
-
+    weak var addDelegate: TextViewControllerDelegate?
+    weak var changeDelegate: TextViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -78,21 +80,23 @@ class TextViewController: UIViewController {
         
     }
     
-    @objc func clickBtn(){
-
-        guard let text = textField.text else {
-            return
-        }
-
-        handler?(text)
-
-        navigationController?.popViewController(animated: true)
-    }
-//    
 //    @objc func clickBtn(){
-//    
+//
+//        guard let text = textField.text else {
+//            return
+//        }
+//
+//        handler?(text)
+//
 //        navigationController?.popViewController(animated: true)
 //    }
-//    
+//
+    @objc func clickBtn(){
+        
+        self.addDelegate?.passText(text: textField.text ?? "0")
+        self.changeDelegate?.changeText(text: textField.text ?? "0")
+        navigationController?.popViewController(animated: true)
+    }
+    
 }
 

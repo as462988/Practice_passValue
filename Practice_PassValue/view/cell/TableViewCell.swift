@@ -25,6 +25,12 @@ class TableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        
+        deleteBtn.layer.borderWidth = 2
+        deleteBtn.layer.borderColor = UIColor.red.cgColor
+        deleteBtn.layer.cornerRadius = 10
+        deleteBtn.clipsToBounds = true
+        
         deleteBtn.addTarget(self, action: #selector(clickDeleteBtn(_:)), for: .touchUpInside)
         
     }
@@ -34,11 +40,6 @@ class TableViewCell: UITableViewCell {
 
       
     }
-//    @IBAction func clickDeleteBtn(){
-//        
-////        self.delegate?.clickBtn(self)
-//        
-//    }
     
     @objc func clickDeleteBtn(_ sender: UIButton) {
         
