@@ -25,9 +25,9 @@ class TableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        
+        deleteBtn.setTitleColor(.brown, for: .normal)
         deleteBtn.layer.borderWidth = 2
-        deleteBtn.layer.borderColor = UIColor.red.cgColor
+        deleteBtn.layer.borderColor = UIColor.brown.cgColor
         deleteBtn.layer.cornerRadius = 10
         deleteBtn.clipsToBounds = true
         
